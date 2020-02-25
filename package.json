@@ -1,0 +1,52 @@
+{
+  "name": "mardi-root",
+  "private": true,
+  "description": "A simple starter to get up and developing quickly with Electron + Gatsby",
+  "version": "0.1.0",
+  "author": "Eunjae Lee <karis612@gmail.com>",
+  "main": "src/electron.js",
+  "workspaces": [
+    "packages/*",
+    "packages/plugins/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"yarn dev:server\" \"yarn dev:react\" \"wait-on http://localhost:3456 && yarn dev:electron\"",
+    "dev:server": "yarn workspace mardi-server dev",
+    "dev:react": "cross-env BROWSER=none yarn workspace mardi-client dev:react",
+    "dev:electron": "yarn workspace mardi-client dev:electron",
+    "test:react": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "lint": "eslint --ext .js,.ts,.tsx .",
+    "lint:fix": "yarn run lint --fix"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "25.1.3",
+    "concurrently": "^5.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-algolia": "^15.0.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-eslint-comments": "^3.1.2",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jest": "^23.6.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react-hooks": "^2.3.0",
+    "kill-port": "1.6.0",
+    "nodemon": "2.0.2",
+    "prettier": "^1.19.1",
+    "tsdx": "0.12.3",
+    "tslib": "1.11.0",
+    "typescript": "3.8.2",
+    "wait-on": "^4.0.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eunjae-lee/electron-gatsby-template"
+  },
+  "bugs": {
+    "url": "https://github.com/eunjae-lee/electron-gatsby-template/issues"
+  }
+}
