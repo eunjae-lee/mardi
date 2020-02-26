@@ -5,15 +5,15 @@
   "version": "0.1.0",
   "main": "dist/index.js",
   "module": "dist/utils.esm.js",
-  "typings": "dist/index.d.ts",
+  "typings": "dist/packages/shared/src/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsdx build && mv dist/packages/shared/src/* dist/",
+    "build": "tsdx build",
     "lint": "tsdx lint",
     "prepare": "yarn build",
-    "start": "tsdx watch",
+    "watch": "tsdx watch",
     "test": "tsdx test"
   }
 }

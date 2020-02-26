@@ -5,16 +5,16 @@
   "version": "0.1.0",
   "main": "dist/index.js",
   "module": "dist/utils.esm.js",
-  "typings": "dist/index.d.ts",
+  "typings": "dist/packages/server/src/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "dev": "kill-port 8123 && concurrently \"yarn start\" \"nodemon --verbose ./dev.js\"",
-    "build": "tsdx build && mv dist/packages/server/src/* dist/",
+    "dev": "nodemon --config nodemon.json",
+    "build": "tsdx build",
     "lint": "tsdx lint",
     "prepare": "yarn build",
-    "start": "tsdx watch",
+    "watch": "tsdx watch",
     "test": "tsdx test"
   },
   "dependencies": {

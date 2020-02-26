@@ -10,13 +10,17 @@
     "packages/plugins/*"
   ],
   "scripts": {
-    "dev": "concurrently \"yarn dev:server\" \"yarn dev:react\" \"wait-on http://localhost:3456 && yarn dev:electron\"",
-    "dev:server": "yarn workspace mardi-server dev",
-    "dev:react": "cross-env BROWSER=none yarn workspace mardi-client dev:react",
-    "dev:electron": "yarn workspace mardi-client dev:electron",
-    "test:react": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "__dev": "concurrently \"yarn dev:server\" \"yarn dev:react\" \"wait-on http://localhost:3456 && yarn dev:electron\"",
+    "__dev:server": "yarn workspace mardi-server dev",
+    "__dev:react": "cross-env BROWSER=none yarn workspace mardi-client dev:react",
+    "__dev:electron": "yarn workspace mardi-client dev:electron",
+    "__test:react": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
     "lint": "eslint --ext .js,.ts,.tsx .",
-    "lint:fix": "yarn run lint --fix"
+    "lint:fix": "yarn run lint --fix",
+    "prepare": "yarn build",
+    "build": "lerna run build",
+    "watch": "lerna exec --parallel -- yarn watch --noClean",
+    "dev": "concurrently \"lerna run --parallel dev\" \"yarn watch\""
   },
   "dependencies": {
     "cross-env": "^7.0.0"
@@ -34,6 +38,7 @@
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-react-hooks": "^2.3.0",
     "kill-port": "1.6.0",
+    "lerna": "^3.20.2",
     "nodemon": "2.0.2",
     "prettier": "^1.19.1",
     "tsdx": "0.12.3",

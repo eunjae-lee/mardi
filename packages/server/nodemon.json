@@ -1,0 +1,8 @@
+{
+  "verbose": true,
+  "watch": ["dev.js", "dist", "../plugins/app-launcher/dist"],
+  "execMap": {
+    "js": "./dev.js"
+  },
+  "delay": 3000
+}
