@@ -3,8 +3,6 @@ import plist from 'simple-plist';
 import { open, SearchResult, SearchResults } from 'mardi-helper';
 import { basename } from 'path';
 
-const ACTION_DESC = 'Open';
-
 type PathWithNames = {
   path: string;
   name: string;
@@ -44,15 +42,13 @@ async function search(query: string): Promise<SearchResults> {
       ({ path, name }): SearchResult => ({
         title: name,
         description: path,
-        context: {
+        payload: {
           path,
         },
       })
     );
   return {
-    pluginName: 'mardi-plugin-app-launcher',
     list,
-    actionDesc: ACTION_DESC,
   };
 }
 

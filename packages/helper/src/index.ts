@@ -7,11 +7,13 @@ export async function open(target: string) {
 export type SearchResult = {
   title: string;
   description?: string;
-  context?: any;
+  payload?: any;
 };
 
 export type SearchResults = {
-  pluginName: string;
   list: SearchResult[];
-  actionDesc: string;
 };
+
+export interface SearchResultsWithPluginName extends SearchResults {
+  pluginName: string;
+}

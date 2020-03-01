@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
-
+import { SearchResultsWithPluginName } from 'mardi-helper';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import { getServerPort } from '../util';
 
+type SearchResultItem = {
+  plugin: string;
+  title: string;
+  description?: string;
+  payload?: any;
+};
+
 const IndexPage = () => {
-  const [searchResult, setSearchResult] = useState([]);
+  const [searchResult, setSearchResult] = useState<SearchResultItem[]>([]);
   const serverPort = getServerPort();
 
-  const search = async event => {
+  const search = async (event: any) => {
     const query = event.target.value;
     const res = await fetch(
       `http://localhost:${serverPort}/search?query=${encodeURIComponent(query)}`
     );
-    const result = await res.json();
+    const result: SearchResultsWithPluginName[] = await res.json();
     /*
     [
       {
@@ -26,14 +33,18 @@ const IndexPage = () => {
           },
           ...
     */
+
     setSearchResult(
-      result.flatMap(({ plugin, list }) =>
-        list.map(item => ({ ...item, plugin }))
+      result.flatMap(({ list, pluginName }) =>
+        list.map(item => ({
+          ...item,
+          plugin: pluginName,
+        }))
       )
     );
   };
 
-  const action = async (plugin, payload) => {
+  const action = async (plugin: string, payload: any) => {
     await fetch(
       `http://localhost:${serverPort}/action?plugin=${encodeURIComponent(
         plugin
@@ -49,17 +60,17 @@ const IndexPage = () => {
         className="outline-none border-none py-4 px-6 block w-full appearance-none leading-normal text-3xl text-gray-100 bg-transparent"
       />
       <div className="">
-        {searchResult.map(({ path, name, actionDesc, plugin }, index) => (
+        {searchResult.map(({ plugin, title, description, payload }, index) => (
           <div key={index} className="px-6 py-4 hover:bg-gray-800">
             <p className="text-xl text-gray-500">
               <button
                 className="focus:outline-none"
-                onClick={() => action(plugin, { path })}
+                onClick={() => action(plugin, payload)}
               >
-                {name}
+                {title}
               </button>
             </p>
-            <p className="text-sm text-gray-600">{path}</p>
+            <p className="text-sm text-gray-600">{description}</p>
           </div>
         ))}
       </div>
