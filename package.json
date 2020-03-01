@@ -19,8 +19,9 @@
     "lint:fix": "yarn run lint --fix",
     "prepare": "yarn build",
     "build": "lerna run build",
-    "watch": "lerna exec --parallel -- yarn watch --noClean",
-    "dev": "concurrently \"lerna run --parallel dev\" \"yarn watch\""
+    "watch": "lerna exec --ignore mardi-electron --parallel -- yarn watch --noClean",
+    "dev": "concurrently \"lerna run --ignore mardi-electron --parallel dev\" \"yarn watch\"",
+    "dev:electron": "yarn workspace mardi-electron dev"
   },
   "dependencies": {
     "cross-env": "^7.0.0"

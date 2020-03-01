@@ -17,6 +17,7 @@ module.exports = {
         'packages/server/**/*',
         'packages/plugins/**/*',
         'packages/common/**/*',
+        'packages/electron/**/*',
       ],
       rules: {
         'import/no-commonjs': 'off',
