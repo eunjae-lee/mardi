@@ -1,0 +1,26 @@
+{
+  "name": "mardi-web",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "gatsby develop --port 3456",
+    "build": "gatsby build",
+    "lint": "echo 'no linter configured'",
+    "prepare": "yarn build",
+    "watch": "echo 'no watcher configured'",
+    "test": "echo 'no test configured'"
+  },
+  "dependencies": {
+    "@types/react-helmet": "^5.0.15",
+    "gatsby": "^2.19.22",
+    "gatsby-plugin-postcss": "^2.1.20",
+    "gatsby-plugin-typescript": "^2.1.27",
+    "mardi-shared": "^0.1.0",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-helmet": "^5.2.1"
+  },
+  "devDependencies": {
+    "tailwindcss": "1.2.0",
+    "ts-node": "8.6.2"
+  }
+}
