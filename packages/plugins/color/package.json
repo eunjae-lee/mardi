@@ -1,11 +1,11 @@
 {
-  "name": "mardi-helper",
+  "name": "mardi-plugin-color",
   "license": "MIT",
   "author": "Eunjae Lee",
   "version": "0.1.0",
   "main": "dist/index.js",
   "module": "dist/utils.esm.js",
-  "typings": "dist/packages/helper/src/index.d.ts",
+  "typings": "dist/packages/plugins/color/src/index.d.ts",
   "files": [
     "dist"
   ],
@@ -17,7 +17,6 @@
     "test": "tsdx test"
   },
   "dependencies": {
-    "clipboardy": "^2.2.0",
-    "open": "7.0.2"
+    "mardi-helper": "^0.1.0"
   }
 }
