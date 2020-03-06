@@ -57,6 +57,7 @@ const IndexPage = () => {
       <SEO title="Home" />
       <input
         onChange={search}
+        spellCheck={false}
         className="outline-none border-none py-4 px-6 block w-full appearance-none leading-normal text-3xl text-gray-100 bg-transparent"
       />
       <div className="">

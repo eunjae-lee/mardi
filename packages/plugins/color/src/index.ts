@@ -1,10 +1,10 @@
 import { SearchResults, copyToClipboard } from 'mardi-helper';
 
 export function search(expression: string): SearchResults {
-  console.log({ expression });
   return {
-    list: [rgbToHex, rgbaToHex, hexToRgb, hexWithAlpha]
-      .flatMap(fn => fn(expression))
+    list: flatten(
+      [rgbToHex, rgbaToHex, hexToRgb, hexWithAlpha].map(fn => fn(expression))
+    )
       .filter(notEmpty)
       .map(value => ({
         title: value,
@@ -15,6 +15,10 @@ export function search(expression: string): SearchResults {
 
 export function runAction(payload: string) {
   copyToClipboard(payload);
+}
+
+function flatten(array: any[]) {
+  return array.reduce((acc: any[], val: any) => acc.concat(val), []);
 }
 
 function notEmpty<TValue>(value: TValue | null): value is TValue {
@@ -42,10 +46,8 @@ function rgbaToHex(expression: string) {
 }
 
 function hexToRgb(expression: string) {
-  if (
-    /#[0-9a-zA-Z]{6,8}/.exec(expression) &&
-    (expression.length === 7 || expression.length === 9)
-  ) {
+  const result = /#[0-9a-zA-Z]{6,8}/.exec(expression);
+  if (result && result[0] === expression) {
     const numbers = hexToNumbers(expression);
     return [`${numbers.length === 3 ? 'rgb' : 'rgba'}(${numbers.join(', ')})`];
   } else {
@@ -83,5 +85,6 @@ function hexToNumbers(expression: string) {
     .slice(1)
     .split(/(..)/)
     .filter(Boolean)
-    .map(val => parseInt(val, 16));
+    .map(val => parseInt(val, 16))
+    .filter(Boolean);
 }

@@ -53,10 +53,18 @@ describe('color', () => {
             "payload": "#ffbb994c",
             "title": "#ffbb994c",
           },
+          Object {
+            "payload": "rgba(255, 187, 153, 0.3)",
+            "title": "rgba(255, 187, 153, 0.3)",
+          },
         ],
       }
     `);
 
-    expect(search('#ffddff * 0.3')).toMatchInlineSnapshot();
+    expect(search('#ffddff *')).toMatchInlineSnapshot(`
+      Object {
+        "list": Array [],
+      }
+    `);
   });
 });
