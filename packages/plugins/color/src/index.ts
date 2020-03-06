@@ -85,6 +85,5 @@ function hexToNumbers(expression: string) {
     .slice(1)
     .split(/(..)/)
     .filter(Boolean)
-    .map(val => parseInt(val, 16))
-    .filter(Boolean);
+    .map(val => parseInt(val, 16));
 }
