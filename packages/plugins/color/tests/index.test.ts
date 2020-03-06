@@ -66,5 +66,16 @@ describe('color', () => {
         "list": Array [],
       }
     `);
+
+    expect(search('#ddff00')).toMatchInlineSnapshot(`
+      Object {
+        "list": Array [
+          Object {
+            "payload": "rgb(221, 255, 0)",
+            "title": "rgb(221, 255, 0)",
+          },
+        ],
+      }
+    `);
   });
 });
