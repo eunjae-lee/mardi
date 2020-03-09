@@ -14810,6 +14810,11 @@ timsort@^0.3.0:
   resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
 
+tiny-fsm@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/tiny-fsm/-/tiny-fsm-0.0.1.tgz#5208a5db162b6bf7efecfc4b2ef243f276fb517e"
+  integrity sha512-0TZTlifZStutwnZTJ7klRXfVh79dsXdSTqRssVD6ZpQak8i81qUxXg91DWnnCWyd5LVCujQ1ZiasMaJ2+9lZFA==
+
 tiny-glob@^0.2.6:
   version "0.2.6"
   resolved "https://registry.yarnpkg.com/tiny-glob/-/tiny-glob-0.2.6.tgz#9e056e169d9788fe8a734dfa1ff02e9b92ed7eda"

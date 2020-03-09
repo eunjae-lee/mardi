@@ -3,6 +3,7 @@ import { SearchResultsWithPluginName } from 'mardi-helper';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import { getServerPort } from '../util';
+import { useStateMachine, autocomplete } from '../fsm';
 
 type SearchResultItem = {
   plugin: string;
@@ -12,11 +13,22 @@ type SearchResultItem = {
 };
 
 const IndexPage = () => {
+  const { state, context, send, setActions } = useStateMachine(autocomplete);
+  setActions({
+    search: ({ data: { query } }) => {
+      console.log('send fetched event');
+      send({ type: 'FETCHED', data: { hits: ['a', 'b'] } });
+    },
+  });
+  console.log({ state, context });
+  // send({ type: 'INPUT', data: { query: 'hello' } });
   const [searchResult, setSearchResult] = useState<SearchResultItem[]>([]);
   const serverPort = getServerPort();
 
   const search = async (event: any) => {
     const query = event.target.value;
+    console.log('sending input event');
+    send({ type: 'INPUT', data: { query } });
     const res = await fetch(
       `http://localhost:${serverPort}/search?query=${encodeURIComponent(query)}`
     );
