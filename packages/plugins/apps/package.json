@@ -1,11 +1,11 @@
 {
-  "name": "mardi-plugin-app-launcher",
+  "name": "mardi-plugin-apps",
   "license": "MIT",
   "author": "Eunjae Lee",
   "version": "0.1.0",
   "main": "dist/index.js",
   "module": "dist/utils.esm.js",
-  "typings": "dist/packages/plugins/app-launcher/src/index.d.ts",
+  "typings": "dist/packages/plugins/apps/src/index.d.ts",
   "files": [
     "dist"
   ],

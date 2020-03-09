@@ -1,12 +1,10 @@
 import Koa from 'koa';
 import { SearchResults, SearchResultsWithPluginName } from 'mardi-helper';
 
-const plugins = ['mardi-plugin-app-launcher', 'mardi-plugin-color'].map(
-  name => ({
-    name,
-    module: require(name),
-  })
-);
+const plugins = ['mardi-plugin-apps', 'mardi-plugin-color'].map(name => ({
+  name,
+  module: require(name),
+}));
 
 export async function search(context: Koa.ParameterizedContext) {
   const { query } = context.query;
