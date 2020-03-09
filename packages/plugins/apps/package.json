@@ -17,8 +17,10 @@
     "test": "tsdx test"
   },
   "dependencies": {
+    "@types/user-home": "^2.0.0",
     "execa": "^4.0.0",
     "mardi-helper": "^0.1.0",
-    "simple-plist": "^1.1.0"
+    "simple-plist": "^1.1.0",
+    "user-home": "^2.0.0"
   }
 }

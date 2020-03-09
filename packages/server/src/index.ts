@@ -4,7 +4,7 @@ import json from 'koa-json';
 import logger from 'koa-logger';
 import Router from 'koa-router';
 import { config } from 'mardi-shared';
-import { search, action } from './routes';
+import { buildCache, search, action } from './routes';
 
 const { defaultServerPort } = config;
 
@@ -29,6 +29,7 @@ app.on('error', (error, ctx) => {
 
 app.use(
   new Router()
+    .get('/build-cache', buildCache)
     .get('/search', search)
     .get('/action', action)
     .routes()
