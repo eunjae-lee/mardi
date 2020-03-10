@@ -1,5 +1,6 @@
 import execa from 'execa';
 import plist from 'simple-plist';
+import userHome from 'user-home';
 import { open, SearchResult, SearchResults } from 'mardi-helper';
 import { basename } from 'path';
 
@@ -15,23 +16,15 @@ function notNull<TValue>(value: TValue | null): value is TValue {
   return value !== null;
 }
 
-async function search(query: string): Promise<SearchResults> {
-  // `-maxdepth 2` -> In order to get `/Applications/Utilities/*.app`
-  // If it's too big, it will get things like
-  // /Applications/Notion.app/Contents/Frameworks/Notion Helper.app
-  const systemApps = await getPaths(
-    `find /Applications -iname *.app -maxdepth 2`
-  );
-  const userApps = await getPaths(
-    `find ${process.env.HOME}/Applications -iname *.app -maxdepth 1`
-  );
-  const paths = systemApps.concat(userApps);
-
-  const pathsWithNames: PathWithNames[] = (
-    await Promise.all(paths.map(getAppName))
-  ).filter(notNull);
-
-  const list: SearchResult[] = pathsWithNames
+export async function search(
+  query: string,
+  cache: any
+): Promise<SearchResults> {
+  let pathsWithNames: PathWithNames[] = cache && cache.pathsWithNames;
+  if (!cache) {
+    pathsWithNames = (await buildCache()).pathsWithNames;
+  }
+  const list = pathsWithNames
     .filter(({ normalizedName1, normalizedName2 }) => {
       return (
         normalizedName1.includes(normalize(query)) ||
@@ -47,13 +40,30 @@ async function search(query: string): Promise<SearchResults> {
         },
       })
     );
-  return {
-    list,
-  };
+  return { list };
 }
 
-async function runAction({ path }: { path: string }) {
+export async function runAction({ path }: { path: string }) {
   await open(path);
+}
+
+export async function buildCache() {
+  // `-maxdepth 2` -> In order to get `/Applications/Utilities/*.app`
+  // If it's too big, it will get things like
+  // /Applications/Notion.app/Contents/Frameworks/Notion Helper.app
+  const systemApps = await getPaths(
+    `find /Applications -iname *.app -maxdepth 2`
+  );
+  const userApps = await getPaths(
+    `find ${userHome}/Applications -iname *.app -maxdepth 1`
+  );
+  const paths = systemApps.concat(userApps);
+
+  const pathsWithNames: PathWithNames[] = (
+    await Promise.all(paths.map(getAppName))
+  ).filter(notNull);
+
+  return { pathsWithNames };
 }
 
 async function getPaths(command: string) {
@@ -95,8 +105,3 @@ async function safeCommand(command: string, options = {}) {
     return '';
   }
 }
-
-module.exports = {
-  search,
-  runAction,
-};

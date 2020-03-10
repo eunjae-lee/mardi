@@ -36,7 +36,7 @@ const IndexPage = () => {
     /*
     [
       {
-        "plugin": "mardi-plugin-app-launcher",
+        "plugin": "mardi-plugin-apps",
         "list": [
           {
             "path": "/Applications/BetterTouchTool.app",

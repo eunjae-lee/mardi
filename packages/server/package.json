@@ -24,12 +24,15 @@
     "@types/koa-logger": "^3.1.1",
     "@types/koa-router": "^7.4.0",
     "@types/koa__cors": "^3.0.1",
+    "@types/user-home": "^2.0.0",
     "get-port": "^5.1.1",
     "koa": "^2.11.0",
     "koa-json": "^2.0.2",
     "koa-logger": "^3.2.1",
     "koa-router": "^8.0.8",
     "mardi-helper": "^0.1.0",
-    "mardi-shared": "^0.1.0"
+    "mardi-shared": "^0.1.0",
+    "mkdirp": "^1.0.3",
+    "user-home": "^2.0.0"
   }
 }

@@ -1,6 +1,6 @@
 {
   "verbose": true,
-  "watch": ["dev.js", "dist", "../plugins/app-launcher/dist"],
+  "watch": ["dev.js", "dist", "../plugins/apps/dist", "../plugins/color/dist"],
   "execMap": {
     "js": "./dev.js"
   },
