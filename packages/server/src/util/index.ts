@@ -13,11 +13,14 @@ export function loadCache(name: string) {
     return null;
   }
   const cacheFilePath = getCacheFilePath(name);
-  if (fs.existsSync(cacheFilePath)) {
-    return JSON.parse(fs.readFileSync(cacheFilePath).toString());
-  } else {
-    return null;
+  try {
+    if (fs.existsSync(cacheFilePath)) {
+      return JSON.parse(fs.readFileSync(cacheFilePath).toString());
+    }
+  } catch (e) {
+    // do nothing
   }
+  return null;
 }
 
 let dirReady = false;

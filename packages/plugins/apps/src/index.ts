@@ -16,8 +16,15 @@ function notNull<TValue>(value: TValue | null): value is TValue {
   return value !== null;
 }
 
-export function search(query: string, cache: any): SearchResults {
-  const list = (cache.pathsWithNames as PathWithNames[])
+export async function search(
+  query: string,
+  cache: any
+): Promise<SearchResults> {
+  let pathsWithNames: PathWithNames[] = cache && cache.pathsWithNames;
+  if (!cache) {
+    pathsWithNames = (await buildCache()).pathsWithNames;
+  }
+  const list = pathsWithNames
     .filter(({ normalizedName1, normalizedName2 }) => {
       return (
         normalizedName1.includes(normalize(query)) ||
