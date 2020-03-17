@@ -1,79 +1,78 @@
-import React, { useState } from 'react';
-import { SearchResultsWithPluginName } from 'mardi-helper';
+import React from 'react';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
-import { getServerPort } from '../util';
-
-type SearchResultItem = {
-  plugin: string;
-  title: string;
-  description?: string;
-  payload?: any;
-};
+import { useStateMachine, autocomplete } from '../fsm';
+import { search, runAction, Hit } from '../api';
 
 const IndexPage = () => {
-  const [searchResult, setSearchResult] = useState<SearchResultItem[]>([]);
-  const serverPort = getServerPort();
+  const {
+    context,
+    send,
+    setActions,
+  }: { context: any; send: Function; setActions: Function } = useStateMachine(
+    autocomplete
+  );
+  setActions({
+    search: async ({ data: { query } }) => {
+      const hits = await search(query);
+      send({ type: 'FETCHED', data: { hits } });
+    },
+  });
 
-  const search = async (event: any) => {
-    const query = event.target.value;
-    const res = await fetch(
-      `http://localhost:${serverPort}/search?query=${encodeURIComponent(query)}`
-    );
-    const result: SearchResultsWithPluginName[] = await res.json();
-    /*
-    [
-      {
-        "plugin": "mardi-plugin-apps",
-        "list": [
-          {
-            "path": "/Applications/BetterTouchTool.app",
-            "name": "BetterTouchTool",
-            "actionDesc": "Open"
-          },
-          ...
-    */
-
-    setSearchResult(
-      result.flatMap(({ list, pluginName }) =>
-        list.map(item => ({
-          ...item,
-          plugin: pluginName,
-        }))
-      )
-    );
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    send({ type: 'INPUT', data: { query: event.target.value } });
   };
 
-  const action = async (plugin: string, payload: any) => {
-    await fetch(
-      `http://localhost:${serverPort}/action?plugin=${encodeURIComponent(
-        plugin
-      )}&payload=${encodeURIComponent(JSON.stringify(payload))}`
-    );
+  const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.keyCode === 38) {
+      // up
+      send('HIGHLIGHT_PREV');
+    } else if (event.keyCode === 40) {
+      // down
+      send('HIGHLIGHT_NEXT');
+    } else if (
+      event.keyCode === 13 &&
+      context &&
+      context.highlightedIndex !== undefined
+    ) {
+      const { plugin, payload } = context.hits[context.highlightedIndex];
+      runAction(plugin, payload);
+    }
   };
 
   return (
     <Layout className="bg-gray-900">
-      <SEO title="Home" />
+      <SEO />
       <input
-        onChange={search}
+        onChange={onChange}
+        onKeyDown={onKeyDown}
         spellCheck={false}
         className="outline-none border-none py-4 px-6 block w-full appearance-none leading-normal text-3xl text-gray-100 bg-transparent"
       />
       <div className="">
-        {searchResult.map(({ plugin, title, description, payload }, index) => (
-          <div key={index} className="px-6 py-4 hover:bg-gray-800">
-            <p className="text-xl text-gray-500">
-              <button
-                className="focus:outline-none"
-                onClick={() => action(plugin, payload)}
-              >
-                {title}
-              </button>
-            </p>
-            <p className="text-sm text-gray-600">{description}</p>
-          </div>
-        ))}
+        {(((context || {}) as any).hits || []).map(
+          ({ plugin, title, description, payload }: Hit, index: number) => (
+            <button
+              type="button"
+              key={index}
+              className={`block w-full text-left px-6 py-4 ${
+                ((context || {}) as any).highlightedIndex === index
+                  ? 'bg-gray-800'
+                  : ''
+              }`}
+              onClick={() => runAction(plugin, payload)}
+              onMouseEnter={() => {
+                send({
+                  type: 'HIGHLIGHT_SPECIFIC_INDEX',
+                  data: { specificIndex: index },
+                });
+              }}
+            >
+              <p className="text-xl text-gray-500">{title}</p>
+              <p className="text-sm text-gray-600">{description}</p>
+            </button>
+          )
+        )}
       </div>
     </Layout>
   );
