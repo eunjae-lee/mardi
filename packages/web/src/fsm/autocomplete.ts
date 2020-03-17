@@ -103,12 +103,11 @@ export const autocomplete: CreateMachineConfig = {
       setContext,
       type,
       context: { highlightedIndex, hits },
-      data: { specificIndex },
+      data: { specificIndex } = {},
     }) => {
       if (specificIndex !== undefined) {
         setContext({ highlightedIndex: specificIndex });
-      }
-      if (highlightedIndex === null) {
+      } else if (highlightedIndex === null) {
         setContext({ highlightedIndex: 0 });
       } else if (type === 'HIGHLIGHT_NEXT') {
         setContext({

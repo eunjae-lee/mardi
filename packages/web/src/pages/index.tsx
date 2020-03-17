@@ -5,7 +5,13 @@ import { useStateMachine, autocomplete } from '../fsm';
 import { search, runAction, Hit } from '../api';
 
 const IndexPage = () => {
-  const { context, send, setActions } = useStateMachine(autocomplete);
+  const {
+    context,
+    send,
+    setActions,
+  }: { context: any; send: Function; setActions: Function } = useStateMachine(
+    autocomplete
+  );
   setActions({
     search: async ({ data: { query } }) => {
       const hits = await search(query);
@@ -17,30 +23,54 @@ const IndexPage = () => {
     send({ type: 'INPUT', data: { query: event.target.value } });
   };
 
+  const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.keyCode === 38) {
+      // up
+      send('HIGHLIGHT_PREV');
+    } else if (event.keyCode === 40) {
+      // down
+      send('HIGHLIGHT_NEXT');
+    } else if (
+      event.keyCode === 13 &&
+      context &&
+      context.highlightedIndex !== undefined
+    ) {
+      const { plugin, payload } = context.hits[context.highlightedIndex];
+      runAction(plugin, payload);
+    }
+  };
+
   return (
     <Layout className="bg-gray-900">
-      <SEO title="Home" />
+      <SEO />
       <input
         onChange={onChange}
+        onKeyDown={onKeyDown}
         spellCheck={false}
         className="outline-none border-none py-4 px-6 block w-full appearance-none leading-normal text-3xl text-gray-100 bg-transparent"
       />
-      {/* <pre className="bg-white">{JSON.stringify(state, null, 2)}</pre>
-      <pre className="bg-white">{JSON.stringify(context, null, 2)}</pre> */}
       <div className="">
         {(((context || {}) as any).hits || []).map(
           ({ plugin, title, description, payload }: Hit, index: number) => (
-            <div key={index} className="px-6 py-4 hover:bg-gray-800">
-              <p className="text-xl text-gray-500">
-                <button
-                  className="focus:outline-none"
-                  onClick={() => runAction(plugin, payload)}
-                >
-                  {title}
-                </button>
-              </p>
+            <button
+              type="button"
+              key={index}
+              className={`block w-full text-left px-6 py-4 ${
+                ((context || {}) as any).highlightedIndex === index
+                  ? 'bg-gray-800'
+                  : ''
+              }`}
+              onClick={() => runAction(plugin, payload)}
+              onMouseEnter={() => {
+                send({
+                  type: 'HIGHLIGHT_SPECIFIC_INDEX',
+                  data: { specificIndex: index },
+                });
+              }}
+            >
+              <p className="text-xl text-gray-500">{title}</p>
               <p className="text-sm text-gray-600">{description}</p>
-            </div>
+            </button>
           )
         )}
       </div>

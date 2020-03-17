@@ -19,7 +19,7 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-helmet": "^5.2.1",
-    "tiny-fsm": "^0.0.3"
+    "tiny-fsm": "^0.0.4"
   },
   "devDependencies": {
     "tailwindcss": "1.2.0",
