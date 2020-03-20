@@ -1,6 +1,9 @@
 # Electron
 dist
 
+# Tauri
+src-tauri/target
+
 # Logs
 logs
 *.log

@@ -26,9 +26,11 @@ const IndexPage = () => {
   const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.keyCode === 38) {
       // up
+      event.preventDefault();
       send('HIGHLIGHT_PREV');
     } else if (event.keyCode === 40) {
       // down
+      event.preventDefault();
       send('HIGHLIGHT_NEXT');
     } else if (
       event.keyCode === 13 &&
@@ -36,6 +38,7 @@ const IndexPage = () => {
       context.highlightedIndex !== undefined
     ) {
       const { plugin, payload } = context.hits[context.highlightedIndex];
+      event.preventDefault();
       runAction(plugin, payload);
     }
   };
