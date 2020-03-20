@@ -1,4 +1,5 @@
 import React from 'react';
+import SearchIcon from 'react-feather/dist/icons/search';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import { useStateMachine, autocomplete } from '../fsm';
@@ -53,12 +54,14 @@ const IndexPage = () => {
   return (
     <Layout className="flex flex-col h-screen">
       <SEO />
-      <div className="border-b">
+      <div className="border-b flex flex-row">
+        <SearchIcon size={36} color="#999999" className="ml-4 mt-5" />
         <input
           onChange={onChange}
           onKeyDown={onKeyDown}
           spellCheck={false}
-          className="outline-none border-none py-4 px-6 block w-full appearance-none leading-normal text-3xl text-gray-800 bg-white"
+          className="outline-none border-none py-4 pl-4 pr-6 block w-full appearance-none leading-normal text-3xl text-gray-800 bg-white"
+          autoFocus
         />
       </div>
       {hits.length > 0 && (

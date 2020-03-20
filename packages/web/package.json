@@ -18,6 +18,7 @@
     "mardi-shared": "^0.1.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
+    "react-feather": "^2.0.3",
     "react-helmet": "^5.2.1",
     "tiny-fsm": "^0.0.4"
   },
