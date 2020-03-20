@@ -17,6 +17,12 @@ const IndexPage = () => {
       const hits = await search(query);
       send({ type: 'FETCHED', data: { hits } });
     },
+    scrollHighlightedIntoView: ({ context: { highlightedIndex } }) => {
+      document.querySelectorAll('.hits .hit')[highlightedIndex].scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    },
   });
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,40 +49,45 @@ const IndexPage = () => {
     }
   };
 
+  const hits = ((context || {}) as any).hits || [];
   return (
-    <Layout className="bg-gray-900">
+    <Layout className="flex flex-col h-screen">
       <SEO />
-      <input
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-        spellCheck={false}
-        className="outline-none border-none py-4 px-6 block w-full appearance-none leading-normal text-3xl text-gray-100 bg-transparent"
-      />
-      <div className="">
-        {(((context || {}) as any).hits || []).map(
-          ({ plugin, title, description, payload }: Hit, index: number) => (
-            <button
-              type="button"
-              key={index}
-              className={`block w-full text-left px-6 py-4 ${
-                ((context || {}) as any).highlightedIndex === index
-                  ? 'bg-gray-800'
-                  : ''
-              }`}
-              onClick={() => runAction(plugin, payload)}
-              onMouseEnter={() => {
-                send({
-                  type: 'HIGHLIGHT_SPECIFIC_INDEX',
-                  data: { specificIndex: index },
-                });
-              }}
-            >
-              <p className="text-xl text-gray-500">{title}</p>
-              <p className="text-sm text-gray-600">{description}</p>
-            </button>
-          )
-        )}
+      <div className="border-b">
+        <input
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+          spellCheck={false}
+          className="outline-none border-none py-4 px-6 block w-full appearance-none leading-normal text-3xl text-gray-800 bg-white"
+        />
       </div>
+      {hits.length > 0 && (
+        <div className="hits overflow-y-scroll overflow-x-hidden">
+          {hits.map(
+            ({ plugin, title, description, payload }: Hit, index: number) => (
+              <button
+                type="button"
+                key={index}
+                className={`hit block w-full text-left px-6 py-4 ${
+                  ((context || {}) as any).highlightedIndex === index
+                    ? 'bg-gray-300'
+                    : ''
+                }`}
+                onClick={() => runAction(plugin, payload)}
+                onMouseEnter={() => {
+                  send({
+                    type: 'HIGHLIGHT_SPECIFIC_INDEX',
+                    data: { specificIndex: index },
+                  });
+                }}
+              >
+                <p className="text-xl text-gray-700">{title}</p>
+                <p className="text-sm text-gray-800">{description}</p>
+              </button>
+            )
+          )}
+        </div>
+      )}
     </Layout>
   );
 };

@@ -58,7 +58,7 @@ export const autocomplete: CreateMachineConfig = {
           },
         },
         highlighted: {
-          entry: ['updateHighlightedIndex'],
+          entry: ['updateHighlightedIndex', 'scrollHighlightedIntoView'],
           on: {
             HIGHLIGHT_NEXT: 'highlighted',
             HIGHLIGHT_PREV: 'highlighted',

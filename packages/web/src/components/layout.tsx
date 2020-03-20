@@ -9,12 +9,14 @@ import React from 'react';
 
 import '../tailwind.css';
 
-const Layout = ({ className, children }) => {
-  return (
-    <div className={className}>
-      <main>{children}</main>
-    </div>
-  );
+const Layout = ({
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) => {
+  return <div className={className}>{children}</div>;
 };
 
 export default Layout;
