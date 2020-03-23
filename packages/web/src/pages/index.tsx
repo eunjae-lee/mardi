@@ -1,28 +1,24 @@
 import React from 'react';
-import SearchIcon from 'react-feather/dist/icons/search';
+import { Search as SearchIcon } from 'react-feather';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
 import { useStateMachine, autocomplete } from '../fsm';
 import { search, runAction, Hit } from '../api';
 
 const IndexPage = () => {
-  const {
-    context,
-    send,
-    setActions,
-  }: { context: any; send: Function; setActions: Function } = useStateMachine(
-    autocomplete
-  );
+  const { context, send, setActions } = useStateMachine(autocomplete);
   setActions({
     search: async ({ data: { query } }) => {
       const hits = await search(query);
       send({ type: 'FETCHED', data: { hits } });
     },
     scrollHighlightedIntoView: ({ context: { highlightedIndex } }) => {
-      document.querySelectorAll('.hits .hit')[highlightedIndex].scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-      });
+      document
+        .querySelectorAll('.hits .hit')
+        [highlightedIndex!].scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
     },
   });
 
@@ -44,7 +40,7 @@ const IndexPage = () => {
       context &&
       context.highlightedIndex !== undefined
     ) {
-      const { plugin, payload } = context.hits[context.highlightedIndex];
+      const { plugin, payload } = context.hits[context.highlightedIndex!];
       event.preventDefault();
       runAction(plugin, payload);
     }

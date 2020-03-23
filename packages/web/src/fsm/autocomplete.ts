@@ -1,6 +1,12 @@
 import { CreateMachineConfig } from 'tiny-fsm';
 
-export const autocomplete: CreateMachineConfig = {
+type Context = {
+  query: string | null;
+  hits: any[];
+  highlightedIndex: number | null;
+};
+
+export const autocomplete: CreateMachineConfig<Context> = {
   context: {
     query: null,
     hits: [],
