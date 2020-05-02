@@ -10,11 +10,6 @@
     "packages/plugins/*"
   ],
   "scripts": {
-    "__dev": "concurrently \"yarn dev:server\" \"yarn dev:react\" \"wait-on http://localhost:3456 && yarn dev:electron\"",
-    "__dev:server": "yarn workspace mardi-server dev",
-    "__dev:react": "cross-env BROWSER=none yarn workspace mardi-client dev:react",
-    "__dev:electron": "yarn workspace mardi-client dev:electron",
-    "__test:react": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
     "lint": "eslint --ext .js,.ts,.tsx .",
     "lint:fix": "yarn run lint --fix",
     "prepare": "yarn build",
